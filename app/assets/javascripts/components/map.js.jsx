@@ -1,13 +1,13 @@
 (function(root) {
 
   var Map = root.Map = React.createClass ({
+
     getInitialState: function () {
       return ({ markers: [] });
     },
 
     _propagateMapMarkers: function () {
       var allBenches = BenchStore.all();
-      // var that = this;
       var markers = [];
 
       allBenches.map (function (bench){
@@ -23,6 +23,23 @@
       markers.formatMarkers(this.state.markers, this.map);
       this.setState({ markers: markers });
     },
+
+    getBounds: function () {
+      var mapBounds = this.map.getBounds()
+      var bounds = {
+        northEast: {"lat": mapBounds.getNorthEast().J,
+                    "lng": mapBounds.getNorthEast().M},
+        southWest: {"lat": mapBounds.getSouthWest().J,
+                    "lng": mapBounds.getSouthWest().M}
+      };
+      ApiUtil.fetchBenches(bounds);
+    },
+
+    handleClick: function (location){
+      var loc = location.latLng;
+      this.props.click({lat: loc.J, lng: loc.M});
+    },
+
     componentDidMount: function () {
       var map = React.findDOMNode(this.refs.map);
       var mapOptions = {
@@ -32,16 +49,12 @@
       this.map = new google.maps.Map(map, mapOptions);
       BenchStore.addChangeHandler(this._propagateMapMarkers);
 
-      this.map.addListener('idle', function (){
-        var mapBounds = this.map.getBounds()
-        var bounds = {
-          northEast: {"lat": mapBounds.getNorthEast().J,
-                      "lng": mapBounds.getNorthEast().M},
-          southWest: {"lat": mapBounds.getSouthWest().J,
-                      "lng": mapBounds.getSouthWest().M}
-        };
-        ApiUtil.fetchBenches(bounds);
-      }.bind(this));
+      this.map.addListener('idle', this.getBounds);
+      this.map.addListener('click', this.handleClick);
+    },
+
+    componentWillUnmount: function () {
+      BenchStore.removeChangeHandler(this._propagateMapMarkers);
     },
 
     render: function () {

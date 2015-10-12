@@ -1,4 +1,4 @@
-ApiActions = {
+FilterActions = {
   receiveAll: function (benches) {
     AppDispatcher.dispatch({
       actionType: BenchConstants.BENCHES_RECEIVED,

@@ -11,6 +11,10 @@
       BenchStore.addChangeHandler(this._resetBenches);
     },
 
+    componentWillUnmount: function () {
+      BenchStore.removeChangeHandler(this._resetBenches)
+    },
+
     _resetBenches: function () {
       this.setState({benches: BenchStore.all()});
     },
