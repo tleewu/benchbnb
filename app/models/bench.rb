@@ -8,7 +8,7 @@ class Bench < ActiveRecord::Base
     lower_lng_bound = bounds["southWest"]["lng"]
     upper_lng_bound = bounds["northEast"]["lng"]
 
-    Bench.all().where(lat > lower_lat_bound AND lat < upper_lat_bound
-                      AND lng > lower_lng_bound AND lng < upper_lng_bound)
+    Bench.where("lat > " + lower_lat_bound + " AND lat < " + upper_lat_bound +
+                " AND lng > " + lower_lng_bound + " AND lng < " + upper_lng_bound)
   end
 end

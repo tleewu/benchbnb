@@ -1,6 +1,5 @@
 var ApiUtil = {
   fetchBenches: function (boundParams) {
-    debugger;
     $.ajax ({
       url: "/benches",
       data: {bounds: boundParams},

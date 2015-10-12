@@ -21,15 +21,16 @@
       };
       this.map = new google.maps.Map(map, mapOptions);
       BenchStore.addChangeHandler(this._propagateMapMarkers);
+
       this.map.addListener('idle', function (){
         var mapBounds = this.map.getBounds()
-        var neBounds = "'northEast': {'lat': '" +
-          mapBounds.getNorthEast().J + "', 'lng': '" +
-          mapBounds.getNorthEast().M + "'}";
-        var swBounds = ", 'southWest': {'lat': '" +
-          mapBounds.getSouthWest().J + "', 'lng': '" +
-          mapBounds.getSouthWest().M + "'}";
-        ApiUtil.fetchBenches(neBounds + swBounds);
+        var bounds = {
+          northEast: {"lat": mapBounds.getNorthEast().J,
+                      "lng": mapBounds.getNorthEast().M},
+          southWest: {"lat": mapBounds.getSouthWest().J,
+                      "lng": mapBounds.getSouthWest().M}
+        };
+        ApiUtil.fetchBenches(bounds);
       }.bind(this));
     },
 
