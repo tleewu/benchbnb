@@ -1,17 +1,27 @@
 (function(root) {
 
   var Map = root.Map = React.createClass ({
+    getInitialState: function () {
+      return ({ markers: [] });
+    },
+
     _propagateMapMarkers: function () {
       var allBenches = BenchStore.all();
-      var that = this;
+      // var that = this;
+      var markers = [];
+
       allBenches.map (function (bench){
         var marker = new google.maps.Marker ({
           position: {lat: bench.lat, lng: bench.lng },
-          title: bench.description
+          title: bench.description,
+          id: bench.id
         });
-        marker.setMap(that.map);
+
+        markers.push(marker);
       });
 
+      markers.formatMarkers(this.state.markers, this.map);
+      this.setState({ markers: markers });
     },
     componentDidMount: function () {
       var map = React.findDOMNode(this.refs.map);
