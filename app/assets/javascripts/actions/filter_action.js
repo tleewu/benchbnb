@@ -1,8 +1,10 @@
 FilterActions = {
-  receiveAll: function (benches) {
+
+  updateParams: function (params) {
     AppDispatcher.dispatch({
-      actionType: BenchConstants.BENCHES_RECEIVED,
-      benches: benches
+      actionType: FilterConstants.FILTER_UPDATE_PARAMS,
+      params: params
     });
-  },
+  }
+
 };

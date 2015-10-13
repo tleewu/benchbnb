@@ -26,13 +26,17 @@
 
     getBounds: function () {
       var mapBounds = this.map.getBounds()
+
       var bounds = {
-        northEast: {"lat": mapBounds.getNorthEast().J,
-                    "lng": mapBounds.getNorthEast().M},
-        southWest: {"lat": mapBounds.getSouthWest().J,
-                    "lng": mapBounds.getSouthWest().M}
+        northEast: {"lat": mapBounds.getNorthEast().lat(),
+                    "lng": mapBounds.getNorthEast().lng()},
+        southWest: {"lat": mapBounds.getSouthWest().lat(),
+                    "lng": mapBounds.getSouthWest().lng()}
       };
-      ApiUtil.fetchBenches(bounds);
+      debugger;
+      this.props.updateBounds(bounds);
+      // ApiUtil.fetchBenches(bounds);
+
     },
 
     handleClick: function (location){

@@ -1,6 +1,7 @@
 class BenchesController < ApplicationController
   def index
-    @benches = Bench.in_bounds(params[:bounds])
+    debugger;
+    @benches = Bench.in_bounds(params[:filterParams])
     render json: @benches
   end
 
